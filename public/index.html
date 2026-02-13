@@ -149,7 +149,10 @@
       const chatEndRef = useRef(null);
 
       // Backend API URL - change this if deploying
-      const API_URL = 'http://localhost:3000';
+      const API_URL =
+        window.location.hostname === 'localhost'
+          ? 'http://localhost:3000'
+          : '';
 
       useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -176,7 +179,7 @@
         setError(null);
         try {
           const response = await fetch(
-            `${API_URL}/api/pexels/search?query=${encodeURIComponent(searchQuery)}&per_page=12`
+            `/api/pexels/search?query=${encodeURIComponent(searchQuery)}&per_page=12`
           );
 
           if (!response.ok) {
@@ -271,7 +274,7 @@
             });
           }
 
-          const response = await fetch(`${API_URL}/api/chat`, {
+          const response = await fetch(`/api/chat`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -314,7 +317,7 @@
         setError(null);
 
         try {
-          const response = await fetch(`${API_URL}/api/generate-image`, {
+          const response = await fetch(`/api/generate-image`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt })
@@ -600,11 +603,6 @@
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<ImageEditorChat />);
-  </script>
-  <script>
-    const API_URL = window.location.hostname === 'localhost'
-      ? 'http://localhost:3000'
-      : 'https://imagegenerationai.vercel.app';
   </script>
 </body>
 
