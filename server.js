@@ -15,17 +15,29 @@ app.use('/api/pexels', require('./src/routes/pexels'));
 app.use('/api/chat', require('./src/routes/chat'));
 app.use('/api/generate-image', require('./src/routes/imageGeneration'));
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'Server is running' });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error('Error:', err);
+  console.error(' Error:', err);
   res.status(err.status || 500).json({ 
     error: err.message || 'Internal Server Error' 
   });
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log('PEXELS_API_KEY:', process.env.PEXELS_API_KEY ? 'Loaded' : 'Missing');
-  console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? 'Loaded' : 'Missing');
-});
+
+// For Vercel serverless
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  // For local development
+  app.listen(PORT, () => {
+    console.log(` Server running on http://localhost:${PORT}`);
+    console.log('PEXELS_API_KEY:', process.env.PEXELS_API_KEY ? 'Loaded' : ' Missing');
+    console.log('OPENAI_API_KEY:', process.env.OPENAI_API_KEY ? 'Loaded' : ' Missing');
+  });
+}

@@ -554,8 +554,8 @@
                   >
                     <div
                       className={`max-w-[80%] rounded-lg px-4 py-2 ${msg.role === 'user'
-                          ? 'bg-purple-600 text-white'
-                          : 'bg-gray-100 text-gray-900'
+                        ? 'bg-purple-600 text-white'
+                        : 'bg-gray-100 text-gray-900'
                         }`}
                     >
                       {msg.content}
@@ -600,6 +600,11 @@
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<ImageEditorChat />);
+  </script>
+  <script>
+    const API_URL = window.location.hostname === 'localhost'
+      ? 'http://localhost:3000'
+      : 'https://imagegenerationai.vercel.app';
   </script>
 </body>
 
