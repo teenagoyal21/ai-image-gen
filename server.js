@@ -13,7 +13,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/api/pexels', require('./src/routes/pexels'));
 app.use('/api/chat', require('./src/routes/chat'));
-app.use('/api/generate-image', require('./src/routes/imageGeneration'));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
